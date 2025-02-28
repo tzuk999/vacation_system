@@ -1,4 +1,4 @@
-from baseDAO import BaseDAO
+from dal.base_dao import BaseDAO
 
 class RolesDAO(BaseDAO):
     def __init__(self, connection_params,table_name ):
