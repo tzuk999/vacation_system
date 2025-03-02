@@ -1,1 +1,0 @@
-db_connection_params = {"host":"localhost", "dbname":"postgres", "user":"postgres", "password":"123456"}
