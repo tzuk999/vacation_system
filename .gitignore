@@ -1,4 +1,4 @@
 venv
-**/config.py
+src\config.py
 *.pyc
 
