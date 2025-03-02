@@ -1,4 +1,5 @@
 import psycopg2
+from src.config import db_connection_params
 
 def create_vacation_system_test_db(connection_params):
     sql_script = """
@@ -100,5 +101,4 @@ def create_vacation_system_test_db(connection_params):
         conn.commit()
     print("Database vacation_system has been created successfully.")
 
-db_connection_params = {"host":"localhost", "dbname":"postgres", "user":"postgres", "password":"123456"}
 create_vacation_system_test_db(db_connection_params)
