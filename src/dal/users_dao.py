@@ -21,16 +21,16 @@ class UsersDAO(BaseDAO):
             except:
                 raise ValueError("Email or Password are incorrect.")
     
- #  return 1 if email exist, and 0 if it doesnt
+ #  return TRUE if email exist, and FALSE if it doesnt
     def email_exists(self, email:str):
         with self._get_connection() as conn:
-            try:
-                with conn.cursor() as cur:
-                    cur.execute(f"SELECT COUNT(1) FROM {self.schema_name}.{self.table_name} WHERE email = %s", (email, ))
-                    return cur.fetchone()[0]
-            except:
-                raise ValueError("Email doesn't exists.")
-    
+            with conn.cursor() as cur:
+                cur.execute(f"SELECT * FROM {self.schema_name}.{self.table_name} WHERE email = %s", (email, ))
+                if cur.fetchone():
+                    return True
+                else:
+                    return False
+
  # adds like by user id and vacation id   
     def add_like(self, user_id:int, vacation_id:int):
         with self._get_connection() as conn:

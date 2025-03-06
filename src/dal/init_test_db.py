@@ -95,7 +95,7 @@ def create_vacation_system_test_db(connection_params):
 
     """
     
-    with psycopg2.connect(host=connection_params["host"], dbname=connection_params["dbname"], user=connection_params["user"], password=connection_params["password"]) as conn:
+    with psycopg2.connect(**connection_params) as conn:
         with conn.cursor() as cur:
             cur.execute(sql_script)
         conn.commit()
