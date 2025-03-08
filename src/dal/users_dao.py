@@ -19,7 +19,7 @@ class UsersDAO(BaseDAO):
                     cur.execute(f"SELECT * FROM {self.schema_name}.{self.table_name} WHERE email = %s AND password = %s", (email, password))
                     return cur.fetchone()
             except:
-                raise ValueError("Email or Password are incorrect.")
+                return False
     
  #  return TRUE if email exist, and FALSE if it doesnt
     def email_exists(self, email:str):
