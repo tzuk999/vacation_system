@@ -1,5 +1,5 @@
-from dal.vacations_dao import VacationsDAO
-from models.vacation_dto import VacationDTO
+from src.dal.vacations_dao import VacationsDAO
+from src.models.vacation_dto import VacationDTO
 from datetime import date
 
 class VacationService:
@@ -32,15 +32,12 @@ class VacationService:
             "image_file_name": image_file_name
         }
         
-        try:
-            new_vacation_data = self.vacations_dao.add_row(vacation_data)
-            if new_vacation_data:
-                new_vacation = VacationDTO(new_vacation_data["id"], new_vacation_data["country_id"], new_vacation_data["descriptiom"], new_vacation_data["start_date"],
-                                            new_vacation_data["end_date"], new_vacation_data["price"], new_vacation_data["image_file_name"])
-                print(f"vacation {new_vacation.id} updated")
-                return new_vacation
-        except Exception as e:
-            raise Exception("Database error") from e
+    
+        new_vacation_id = self.vacations_dao.add_row(vacation_data)
+        if new_vacation_id:
+            print(f"vacation {new_vacation_id["id"]} added")
+            return new_vacation_id
+    
 
 
 
@@ -70,6 +67,7 @@ class VacationService:
             }
         
         try:
+            self.vacations_dao.read_by_id(vacation_id)
             self.vacations_dao.update_by_id(vacation_id, vacation_data)
             print(f"vacation {vacation_id} updated")
         except Exception as e:
@@ -78,8 +76,11 @@ class VacationService:
 
 
     def delete_vacation(self, vacation_id: int):
-        try:
-            self.vacations_dao.delete_by_id(vacation_id)
-            print(f'vacation- {vacation_id} deleted')
-        except Exception as e:
-            raise Exception("Database error") from e
+        if self.vacations_dao.read_by_id(vacation_id):
+            try:
+                self.vacations_dao.delete_by_id(vacation_id)
+                print(f'vacation- {vacation_id} deleted')
+            except Exception as e:
+                raise Exception("Database error") from e
+        else: 
+            raise ValueError("vacation doesnt exist")

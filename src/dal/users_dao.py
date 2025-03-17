@@ -1,4 +1,4 @@
-from dal.base_dao import BaseDAO
+from src.dal.base_dao import BaseDAO
 from psycopg2.extras import RealDictCursor
 
 class UsersDAO(BaseDAO):
@@ -6,8 +6,8 @@ class UsersDAO(BaseDAO):
         super().__init__(connection_params, table_name, schema_name)
 
     #Ensure only users with role_id corresponding to 'user' can be added- excepting and adding User module data
-    def add_user(self, data):
-        if data.role_id != 2:
+    def add_user(self, data:dict):
+        if data["role_id"] != 2:
             raise ValueError("Only users with role 'user' can be added.")
         return self.add_row(data)
     

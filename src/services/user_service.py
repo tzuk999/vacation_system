@@ -1,6 +1,6 @@
-from dal.users_dao import UsersDAO
-from models.user_dto import UserDTO
-from dal.vacations_dao import VacationsDAO
+from src.dal.users_dao import UsersDAO
+from src.models.user_dto import UserDTO
+from src.dal.vacations_dao import VacationsDAO
 import re
 
 class UserService:
@@ -39,16 +39,15 @@ class UserService:
         if len(password) < 4:
             raise ValueError("Password must be at least 4 characters long")
         
-        try:
-            user_data = self.user_dao.get_user_by_email_password(email, password)
-            if user_data:
-                user = UserDTO(id= user_data["id"], first_name= user_data["first_name"], last_name= user_data["last_name"], email= user_data["email"], role_id= user_data["role_id"])
-                print(f'{user.first_name} logged in succesfuly')
-                return user
-            else:
-                raise ValueError("Invalid email or password")
-        except Exception as e:
-            raise Exception("Database error") from e
+        user_data = self.user_dao.get_user_by_email_password(email, password)
+
+        if user_data:
+            user = UserDTO(id= user_data["id"], first_name= user_data["first_name"], last_name= user_data["last_name"], email= user_data["email"], role_id= user_data["role_id"])
+            print(f'{user.first_name} logged in succesfuly')
+            return user
+        else:
+            raise ValueError("Invalid email or password")
+       
 
 
     # getting user and vacation id, checking that the user and the vacation exist and adding a like

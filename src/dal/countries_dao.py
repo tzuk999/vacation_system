@@ -1,4 +1,4 @@
-from dal.base_dao import BaseDAO
+from src.dal.base_dao import BaseDAO
 
 class CountriesDAO(BaseDAO):
     def __init__(self, connection_params, table_name, schema_name):
