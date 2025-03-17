@@ -6,13 +6,13 @@ def create_vacation_system_test_db(connection_params):
     DROP SCHEMA IF EXISTS test CASCADE;
     CREATE SCHEMA test;
 
-    -- יצירת טבלת תפקידים
+    -- creating roles table
     CREATE TABLE test.roles (
         id SERIAL PRIMARY KEY,
         role_name VARCHAR(50) UNIQUE NOT NULL CHECK (role_name IN ('admin', 'user'))
     );
 
-    -- יצירת טבלת משתמשים
+    -- creating users table
     CREATE TABLE test.users (
         id SERIAL PRIMARY KEY,
         first_name VARCHAR(100) NOT NULL,
@@ -23,13 +23,13 @@ def create_vacation_system_test_db(connection_params):
         CONSTRAINT fk_users_role FOREIGN KEY (role_id) REFERENCES test.roles(id) ON DELETE CASCADE
     );
 
-    -- יצירת טבלת מדינות
+    -- creating countries table
     CREATE TABLE test.countries (
         id SERIAL PRIMARY KEY,
         country_name VARCHAR(100) UNIQUE NOT NULL
     );
 
-    -- יצירת טבלת חופשות
+    -- creating vacations table
     CREATE TABLE test.vacations (
         id SERIAL PRIMARY KEY,
         country_id INT NOT NULL,
@@ -41,7 +41,7 @@ def create_vacation_system_test_db(connection_params):
         CONSTRAINT fk_vacations_country FOREIGN KEY (country_id) REFERENCES test.countries(id) ON DELETE CASCADE
     );
 
-    -- יצירת טבלת לייקים
+    -- creating likes table
     CREATE TABLE test.likes (
         user_id INT NOT NULL,
         vacation_id INT NOT NULL,
@@ -50,10 +50,10 @@ def create_vacation_system_test_db(connection_params):
         CONSTRAINT fk_likes_vacation FOREIGN KEY (vacation_id) REFERENCES test.vacations(id) ON DELETE CASCADE
     );
 
-    -- הכנסת נתונים לטבלת תפקידים
+    -- inserting roles
     INSERT INTO test.roles (role_name) VALUES ('admin'), ('user');
 
-    -- הכנסת נתונים לטבלת משתמשים
+    -- inserting users
     INSERT INTO test.users (first_name, last_name, email, password, role_id) VALUES
         ('John', 'Doe', 'john.doe@example.com', 'password123', 1),
         ('Jane', 'Smith', 'jane.smith@example.com', 'password123', 2),
@@ -66,12 +66,12 @@ def create_vacation_system_test_db(connection_params):
         ('Grace', 'Moore', 'grace.moore@example.com', 'password123', 2),
         ('Henry', 'Taylor', 'henry.taylor@example.com', 'password123', 2);
 
-    -- הכנסת נתונים לטבלת מדינות
+    -- inserting countries
     INSERT INTO test.countries (country_name) VALUES
         ('USA'), ('Canada'), ('Mexico'), ('France'), ('Germany'),
         ('Italy'), ('Spain'), ('Japan'), ('China'), ('Australia');
 
-    -- הכנסת נתונים לטבלת חופשות
+    -- inserting vacations
     INSERT INTO test.vacations (country_id, description, start_date, end_date, price, image_file_name) VALUES
         (1, 'Beach vacation in Miami', '2025-06-01', '2025-06-10', 1500.00, 'miami.jpg'),
         (2, 'Skiing trip in Canada', '2025-12-15', '2025-12-25', 2000.00, 'canada_ski.jpg'),
@@ -92,6 +92,7 @@ def create_vacation_system_test_db(connection_params):
         (7, 'Flamenco experience in Madrid', '2025-07-01', '2025-07-07', 1500.00, 'flamenco.jpg'),
         (8, 'Snowboarding in Hokkaido', '2025-12-01', '2025-12-10', 3300.00, 'hokkaido.jpg'),
         (9, 'Yangtze River Cruise', '2025-09-10', '2025-09-20', 2900.00, 'yangtze.jpg');
+
 
     """
     

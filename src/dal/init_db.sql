@@ -1,13 +1,13 @@
 DROP SCHEMA IF EXISTS vacation_system CASCADE;
 CREATE SCHEMA vacation_system;
 
--- יצירת טבלת תפקידים
+-- creating roles table
 CREATE TABLE vacation_system.roles (
     id SERIAL PRIMARY KEY,
     role_name VARCHAR(50) UNIQUE NOT NULL CHECK (role_name IN ('admin', 'user'))
 );
 
--- יצירת טבלת משתמשים
+-- creating users table
 CREATE TABLE vacation_system.users (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -18,13 +18,13 @@ CREATE TABLE vacation_system.users (
     CONSTRAINT fk_users_role FOREIGN KEY (role_id) REFERENCES vacation_system.roles(id) ON DELETE CASCADE
 );
 
--- יצירת טבלת מדינות
+-- creating countries table
 CREATE TABLE vacation_system.countries (
     id SERIAL PRIMARY KEY,
     country_name VARCHAR(100) UNIQUE NOT NULL
 );
 
--- יצירת טבלת חופשות
+-- creating vacations table
 CREATE TABLE vacation_system.vacations (
     id SERIAL PRIMARY KEY,
     country_id INT NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE vacation_system.vacations (
     CONSTRAINT fk_vacations_country FOREIGN KEY (country_id) REFERENCES vacation_system.countries(id) ON DELETE CASCADE
 );
 
--- יצירת טבלת לייקים
+-- creating likes table
 CREATE TABLE vacation_system.likes (
     user_id INT NOT NULL,
     vacation_id INT NOT NULL,
@@ -45,10 +45,10 @@ CREATE TABLE vacation_system.likes (
     CONSTRAINT fk_likes_vacation FOREIGN KEY (vacation_id) REFERENCES vacation_system.vacations(id) ON DELETE CASCADE
 );
 
--- הכנסת נתונים לטבלת תפקידים
+-- inserting roles
 INSERT INTO vacation_system.roles (role_name) VALUES ('admin'), ('user');
 
--- הכנסת נתונים לטבלת משתמשים
+-- inserting users
 INSERT INTO vacation_system.users (first_name, last_name, email, password, role_id) VALUES
     ('John', 'Doe', 'john.doe@example.com', 'password123', 1),
     ('Jane', 'Smith', 'jane.smith@example.com', 'password123', 2),
@@ -61,12 +61,12 @@ INSERT INTO vacation_system.users (first_name, last_name, email, password, role_
     ('Grace', 'Moore', 'grace.moore@example.com', 'password123', 2),
     ('Henry', 'Taylor', 'henry.taylor@example.com', 'password123', 2);
 
--- הכנסת נתונים לטבלת מדינות
+-- inserting countries
 INSERT INTO vacation_system.countries (country_name) VALUES
     ('USA'), ('Canada'), ('Mexico'), ('France'), ('Germany'),
     ('Italy'), ('Spain'), ('Japan'), ('China'), ('Australia');
 
--- הכנסת נתונים לטבלת חופשות
+-- inserting vacations
 INSERT INTO vacation_system.vacations (country_id, description, start_date, end_date, price, image_file_name) VALUES
     (1, 'Beach vacation in Miami', '2025-06-01', '2025-06-10', 1500.00, 'miami.jpg'),
     (2, 'Skiing trip in Canada', '2025-12-15', '2025-12-25', 2000.00, 'canada_ski.jpg'),

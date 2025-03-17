@@ -17,7 +17,7 @@ class BaseDAO:
                 return cur.fetchall()
 
 
-    #getting a dictionery and adding a row to the table- keys = columns, values = valuse
+    # getting a dictionery and adding a row to the table- keys = columns, values = valuse
     def add_row(self, data:dict):
         columns = ', '.join(data.keys())
         values = ', '.join(['%s'] * len(data))
@@ -31,7 +31,7 @@ class BaseDAO:
                 return cur.fetchone()[0]
 
 
-
+    # reads a row by id
     def read_by_id(self, row_id):
         with self._get_connection() as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -39,7 +39,7 @@ class BaseDAO:
                 return cur.fetchone()
 
 
-
+    # deleting a row by id
     def delete_by_id(self, row_id):
         with self._get_connection() as conn:
             with conn.cursor() as cur:
@@ -47,7 +47,7 @@ class BaseDAO:
                 conn.commit()
 
 
-
+    # updating a row by getting the row id and a dict of the columns and values
     def update_by_id(self, row_id, data:dict):
         set_clause = ', '.join([f"{key} = %s" for key in data.keys()])
         
