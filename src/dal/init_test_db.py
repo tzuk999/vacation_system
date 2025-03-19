@@ -100,6 +100,3 @@ def create_vacation_system_test_db(connection_params):
         with conn.cursor() as cur:
             cur.execute(sql_script)
         conn.commit()
-    print("Database vacation_system has been created successfully.")
-
-create_vacation_system_test_db(db_connection_params)
